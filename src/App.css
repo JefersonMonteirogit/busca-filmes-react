@@ -1,0 +1,383 @@
+/* ==========================================
+   1. VARIÁVEIS GLOBAIS (:root)
+   ========================================== */
+:root {
+  /* Cores de Fundo */
+  --bg-pagina: #0f172a;        /* Fundo geral da aplicação */
+  --bg-card: #1e293b;          /* Fundo dos cards, inputs e modais */
+  --bg-hover: #334155;         /* Destaque ao passar o mouse */
+  --bg-overlay: rgba(0, 0, 0, 0.8);
+
+  /* Cores de Destaque e Ações */
+  --cor-primaria: #0284c7;     /* Botões principais */
+  --cor-primaria-hover: #0369a1;
+  --cor-destaque: #38bdf8;     /* Títulos, bordas ativas e textos secundários */
+  --cor-rating: #eab308;       /* Cor da nota do IMDb (Amarelo) */
+  --cor-erro: #f87171;
+
+  /* Cores de Texto */
+  --texto-principal: #f8fafc;
+  --texto-titulos: #f1f5f9;
+  --texto-secundario: #94a3b8;
+  --texto-mutado: #cbd5e1;
+
+  /* Tipografia */
+  --fonte-padrao: system-ui, -apple-system, sans-serif;
+
+  /* Bordas e Layout */
+  --borda-suave: 1px solid #334155;
+  --raio-card: 10px;
+  --raio-modal: 12px;
+  --raio-botao: 8px;
+  --sombra-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================
+   2. BASE GLOBAL
+   ========================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--fonte-padrao);
+  background-color: var(--bg-pagina);
+  color: var(--texto-principal);
+  min-height: 100vh;
+}
+
+.app-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+/* ==========================================
+   3. HEADER & BUSCA
+   ========================================== */
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.header h1 {
+  font-size: 2.2rem;
+  color: var(--cor-destaque);
+  margin-bottom: 6px;
+}
+
+.header p {
+  color: var(--texto-secundario);
+  margin-bottom: 20px;
+}
+
+.search-form {
+  display: flex;
+  gap: 8px;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  border-radius: var(--raio-botao);
+  border: var(--borda-suave);
+  background: var(--bg-card);
+  color: #fff;
+  outline: none;
+}
+
+.search-form input:focus {
+  border-color: var(--cor-destaque);
+}
+
+.search-form button {
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: var(--cor-primaria);
+  color: white;
+  border: none;
+  border-radius: var(--raio-botao);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-form button:hover {
+  background: var(--cor-primaria-hover);
+}
+
+/* ==========================================
+   4. CATEGORIAS
+   ========================================== */
+.category-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+.category-btn {
+  background: var(--bg-card);
+  color: var(--texto-secundario);
+  border: var(--borda-suave);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-btn:hover {
+  background: var(--bg-hover);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.category-btn.active {
+  background: var(--cor-primaria);
+  color: #fff;
+  border-color: var(--cor-destaque);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.status-msg, .error-msg {
+  text-align: center;
+  margin-top: 40px;
+  color: var(--texto-secundario);
+}
+
+.error-msg {
+  color: var(--cor-erro);
+}
+
+/* ==========================================
+   5. GRID DE CARDS
+   ========================================== */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.movie-card {
+  background: var(--bg-card);
+  border-radius: var(--raio-card);
+  box-shadow: var(--sombra-card);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-card:hover {
+  transform: translateY(-4px);
+}
+
+.poster-wrapper {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background: var(--bg-pagina);
+}
+
+.poster-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movie-info {
+  padding: 12px;
+}
+
+.movie-info h3 {
+  font-size: 0.95rem;
+  color: var(--texto-titulos);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.movie-year {
+  font-size: 0.8rem;
+  color: var(--cor-destaque);
+}
+
+/* ==========================================
+   6. MODAL & DETALHES
+   ========================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: var(--bg-card);
+  border-radius: var(--raio-modal);
+  max-width: 800px; /* Expandido para dar respiro ao trailer e poster */
+  width: 100%;
+  padding: 24px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--bg-hover);
+  color: #fff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.modal-body {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start; /* Impede a imagem de esticar verticalmente */
+}
+
+.modal-poster {
+  width: 200px;
+  height: auto;           /* Preserva a proporção original do poster */
+  flex-shrink: 0;        /* Impede que a imagem encolha */
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.modal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  background: var(--bg-hover);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.badge.rating {
+  background: var(--cor-rating);
+  color: #000;
+  font-weight: bold;
+}
+
+.plot {
+  line-height: 1.4;
+  color: var(--texto-mutado);
+}
+
+/* ==========================================
+   7. SEÇÃO DE STREAMING
+   ========================================== */
+.streaming-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 6px 0;
+}
+
+.streaming-label {
+  font-size: 0.85rem;
+  color: var(--cor-destaque);
+}
+
+.streaming-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.streaming-badge {
+  background: var(--bg-hover);
+  color: var(--texto-principal);
+  border: var(--borda-suave);
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.streaming-empty {
+  font-size: 0.85rem;
+  color: var(--texto-secundario);
+  font-style: italic;
+}
+
+/* ==========================================
+   8. TRAILER RESPONSIVO
+   ========================================== */
+.trailer-container {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.video-responsive {
+  overflow: hidden;
+  padding-bottom: 56.25%; /* Proporção 16:9 */
+  position: relative;
+  height: 0;
+  border-radius: var(--raio-botao);
+}
+
+.video-responsive iframe {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+/* ==========================================
+   9. RESPONSIVIDADE MOBILE
+   ========================================== */
+@media (max-width: 600px) {
+  .search-form {
+    flex-direction: column;
+  }
+
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+  }
+
+  .modal-body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-poster {
+    width: 150px;
+  }
+}
