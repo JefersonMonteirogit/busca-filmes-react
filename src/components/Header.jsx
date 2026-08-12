@@ -11,7 +11,7 @@ export default function Header({
 }) {
   return (
     <header className="header">
-      <h1>🎬 Seção da Hora</h1>
+      <h1>🎬 Hora da Seção</h1>
       <p>Busque seus filmes e séries favoritos em tempo real</p>
       
       <form onSubmit={aoBuscar} className="search-form">
